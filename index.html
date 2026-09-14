@@ -1,0 +1,2237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FastTrack</title>
+
+<style>
+:root {
+    --bg: #07111f;
+    --card: #101d2e;
+    --card2: #152438;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+    --green: #34d399;
+    --blue: #38bdf8;
+    --orange: #fbbf24;
+    --red: #fb7185;
+    --purple: #a78bfa;
+    --border: rgba(255,255,255,.08);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+.app {
+    max-width: 500px;
+    margin: auto;
+    min-height: 100vh;
+    padding-bottom: 100px;
+}
+
+.topbar {
+    padding: 24px 20px 12px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--green), var(--blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.logo p {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.page {
+    display: none;
+    padding: 8px 16px 20px;
+}
+
+.page.active {
+    display: block;
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.section-heading {
+    font-size: 27px;
+    margin: 5px 0 5px;
+}
+
+.section-subtitle {
+    color: var(--muted);
+    margin: 0 0 20px;
+    font-size: 14px;
+}
+
+.center {
+    text-align: center;
+}
+
+/* FAST RING */
+
+.ring-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 14px 0 18px;
+}
+
+.progress-ring {
+    --progress: 0deg;
+    width: 270px;
+    height: 270px;
+    border-radius: 50%;
+    background:
+        conic-gradient(
+            var(--green) var(--progress),
+            #22334a var(--progress)
+        );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.progress-ring::before {
+    content: "";
+    position: absolute;
+    width: 238px;
+    height: 238px;
+    background: var(--bg);
+    border-radius: 50%;
+}
+
+.ring-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.ring-status {
+    color: var(--green);
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.timer {
+    font-size: 34px;
+    font-weight: 800;
+}
+
+.timer-label {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 8px;
+}
+
+.percent {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* STATS */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+}
+
+.stat-box {
+    background: var(--card2);
+    border-radius: 16px;
+    padding: 14px;
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.stat-value {
+    margin-top: 6px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+/* BUTTONS */
+
+.main-button {
+    width: 100%;
+    border: none;
+    padding: 16px;
+    border-radius: 16px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.start {
+    background: var(--green);
+    color: #03231c;
+}
+
+.pause {
+    background: var(--orange);
+    color: #261b00;
+}
+
+.danger {
+    background: rgba(251,113,133,.13);
+    color: var(--red);
+    border: 1px solid rgba(251,113,133,.25);
+}
+
+.button-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+/* PRESETS */
+
+.presets {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 9px;
+}
+
+.preset {
+    border: 1px solid var(--border);
+    background: var(--card2);
+    color: var(--text);
+    border-radius: 14px;
+    padding: 12px 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.preset.selected {
+    background: rgba(52,211,153,.15);
+    border-color: var(--green);
+    color: var(--green);
+}
+
+/* INPUT */
+
+label {
+    display: block;
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 7px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--card2);
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
+
+.custom-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+}
+
+.add-button {
+    padding: 0 20px;
+    border: none;
+    border-radius: 14px;
+    background: var(--blue);
+    color: #042334;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* WATER */
+
+.water-card {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(56,189,248,.16),
+            rgba(16,29,46,1)
+        );
+}
+
+.water-circle {
+    width: 210px;
+    height: 210px;
+    border-radius: 50%;
+    border: 14px solid rgba(56,189,248,.12);
+    margin: 15px auto 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.water-fill {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 0%;
+    background: rgba(56,189,248,.24);
+    transition: height .4s;
+}
+
+.water-content {
+    z-index: 2;
+    text-align: center;
+}
+
+.water-big {
+    font-size: 38px;
+    font-weight: bold;
+}
+
+.water-buttons {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 8px;
+}
+
+.water-button {
+    background: rgba(56,189,248,.13);
+    border: 1px solid rgba(56,189,248,.25);
+    color: var(--blue);
+    border-radius: 14px;
+    padding: 13px 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.progress-track {
+    height: 14px;
+    background: #22334a;
+    border-radius: 100px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 100px;
+    transition: width .4s;
+}
+
+.blue-fill {
+    background: var(--blue);
+}
+
+.purple-fill {
+    background: var(--purple);
+}
+
+/* WEIGHT */
+
+.weight-main {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.weight-number {
+    font-size: 48px;
+    font-weight: bold;
+    color: var(--purple);
+}
+
+.weight-unit {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.weight-loss {
+    margin-top: 8px;
+    color: var(--green);
+    font-weight: bold;
+}
+
+.weight-history-item {
+    background: var(--card2);
+    padding: 13px;
+    border-radius: 14px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.weight-history-date {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* HISTORY */
+
+.history-item {
+    background: var(--card2);
+    padding: 15px;
+    border-radius: 16px;
+    margin-bottom: 10px;
+}
+
+.history-top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.completed {
+    color: var(--green);
+}
+
+.cancelled {
+    color: var(--red);
+}
+
+.history-date {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 7px;
+}
+
+.empty {
+    color: var(--muted);
+    text-align: center;
+    padding: 20px;
+}
+
+.small-note {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(500px,100%);
+    height: 80px;
+    background: rgba(10,21,35,.98);
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    z-index: 50;
+}
+
+.nav-button {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.nav-icon {
+    display: block;
+    font-size: 21px;
+    margin-bottom: 4px;
+}
+
+.nav-button.active {
+    color: var(--green);
+}
+
+@media(max-width:380px) {
+
+    .progress-ring {
+        width: 235px;
+        height: 235px;
+    }
+
+    .progress-ring::before {
+        width: 207px;
+        height: 207px;
+    }
+
+    .timer {
+        font-size: 28px;
+    }
+
+    .presets {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .water-buttons {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div class="topbar">
+
+    <div class="logo">
+
+        <div class="logo-icon">⏱</div>
+
+        <div>
+            <h1>FastTrack</h1>
+            <p>Fasting • Water • Weight</p>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- FAST PAGE -->
+
+<div id="fastPage" class="page active">
+
+    <div class="ring-wrap">
+
+        <div id="fastRing" class="progress-ring">
+
+            <div class="ring-content">
+
+                <div id="fastStatus" class="ring-status">
+                    READY TO FAST
+                </div>
+
+                <div id="timer" class="timer">
+                    00:00:00:00
+                </div>
+
+                <div class="timer-label">
+                    DAYS • HOURS • MIN • SEC
+                </div>
+
+                <div id="fastPercent" class="percent">
+                    0% COMPLETE
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="stats-grid">
+
+            <div class="stat-box">
+                <div class="stat-label">FAST LENGTH</div>
+                <div id="selectedFastDisplay" class="stat-value">
+                    16 Hours
+                </div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-label">TIME FASTED</div>
+                <div id="elapsedDisplay" class="stat-value">
+                    0 Hours
+                </div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-label">STARTED</div>
+                <div id="startTime" class="stat-value">
+                    --
+                </div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-label">TARGET</div>
+                <div id="endTime" class="stat-value">
+                    --
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <button
+        id="startButton"
+        class="main-button start"
+        onclick="startFast()">
+        START FAST
+    </button>
+
+    <div
+        id="runningButtons"
+        class="button-row"
+        style="display:none;">
+
+        <button
+            id="pauseButton"
+            class="main-button pause"
+            onclick="pauseFast()">
+            PAUSE
+        </button>
+
+        <button
+            class="main-button danger"
+            onclick="cancelFast()">
+            END FAST
+        </button>
+
+    </div>
+
+    <div
+        id="fastSetup"
+        class="card"
+        style="margin-top:16px;">
+
+        <div class="card-title">
+            Choose Fast
+        </div>
+
+        <div class="presets">
+
+            <button class="preset" onclick="chooseFast(12,this)">12 HR</button>
+
+            <button class="preset selected" onclick="chooseFast(16,this)">16 HR</button>
+
+            <button class="preset" onclick="chooseFast(18,this)">18 HR</button>
+
+            <button class="preset" onclick="chooseFast(20,this)">20 HR</button>
+
+            <button class="preset" onclick="chooseFast(24,this)">24 HR</button>
+
+            <button class="preset" onclick="chooseFast(36,this)">36 HR</button>
+
+            <button class="preset" onclick="chooseFast(48,this)">48 HR</button>
+
+            <button class="preset" onclick="chooseFast(72,this)">3 DAYS</button>
+
+            <button class="preset" onclick="chooseFast(168,this)">7 DAYS</button>
+
+            <button class="preset" onclick="chooseFast(336,this)">14 DAYS</button>
+
+            <button class="preset" onclick="chooseFast(504,this)">21 DAYS</button>
+
+            <button class="preset" onclick="chooseFast(720,this)">30 DAYS</button>
+
+        </div>
+
+        <div style="margin-top:18px;">
+
+            <label>Custom fast in hours</label>
+
+            <div class="custom-row">
+
+                <input
+                    id="customHours"
+                    type="number"
+                    min="1"
+                    max="720"
+                    placeholder="1 - 720">
+
+                <button
+                    class="add-button"
+                    onclick="setCustomFast()">
+                    SET
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- WATER PAGE -->
+
+<div id="waterPage" class="page">
+
+    <h2 class="section-heading">
+        Water
+    </h2>
+
+    <p class="section-subtitle">
+        Track daily water consumption.
+    </p>
+
+    <div class="card water-card">
+
+        <div class="water-circle">
+
+            <div
+                id="waterFill"
+                class="water-fill">
+            </div>
+
+            <div class="water-content">
+
+                <div style="font-size:28px;">💧</div>
+
+                <div
+                    id="waterAmount"
+                    class="water-big">
+                    0 oz
+                </div>
+
+                <div
+                    id="waterGoalText"
+                    class="small-note">
+                    Goal: 100 oz
+                </div>
+
+            </div>
+
+        </div>
+
+        <div
+            id="waterPercent"
+            class="center">
+            0% of today's goal
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-title">
+            Quick Add
+        </div>
+
+        <div class="water-buttons">
+
+            <button class="water-button" onclick="addWater(8)">
+                +8 oz
+            </button>
+
+            <button class="water-button" onclick="addWater(12)">
+                +12 oz
+            </button>
+
+            <button class="water-button" onclick="addWater(16)">
+                +16 oz
+            </button>
+
+            <button class="water-button" onclick="addWater(20)">
+                +20 oz
+            </button>
+
+            <button class="water-button" onclick="addWater(24)">
+                +24 oz
+            </button>
+
+            <button class="water-button" onclick="addWater(32)">
+                +32 oz
+            </button>
+
+            <button class="water-button" onclick="undoWater()">
+                Undo
+            </button>
+
+            <button class="water-button" onclick="resetWater()">
+                Reset
+            </button>
+
+        </div>
+
+        <div style="margin-top:20px;">
+
+            <label>Custom water amount</label>
+
+            <div class="custom-row">
+
+                <input
+                    id="customWater"
+                    type="number"
+                    placeholder="Ounces">
+
+                <button
+                    class="add-button"
+                    onclick="addCustomWater()">
+                    ADD
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-title">
+            Daily Water Goal
+        </div>
+
+        <div class="custom-row">
+
+            <input
+                id="waterGoal"
+                type="number"
+                value="100">
+
+            <button
+                class="add-button"
+                onclick="saveWaterGoal()">
+                SAVE
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- WEIGHT PAGE -->
+
+<div id="weightPage" class="page">
+
+    <h2 class="section-heading">
+        Weight
+    </h2>
+
+    <p class="section-subtitle">
+        Track your progress toward your goal.
+    </p>
+
+    <div class="card">
+
+        <div class="weight-main">
+
+            <div class="small-note">
+                CURRENT WEIGHT
+            </div>
+
+            <div id="currentWeight" class="weight-number">
+                --
+            </div>
+
+            <div class="weight-unit">
+                pounds
+            </div>
+
+            <div
+                id="weightChange"
+                class="weight-loss">
+            </div>
+
+        </div>
+
+        <div class="stats-grid">
+
+            <div class="stat-box">
+
+                <div class="stat-label">
+                    STARTING
+                </div>
+
+                <div id="startingWeightDisplay" class="stat-value">
+                    --
+                </div>
+
+            </div>
+
+            <div class="stat-box">
+
+                <div class="stat-label">
+                    GOAL
+                </div>
+
+                <div id="goalWeightDisplay" class="stat-value">
+                    --
+                </div>
+
+            </div>
+
+        </div>
+
+        <div style="margin-top:18px;">
+
+            <div class="small-note">
+                PROGRESS TO GOAL
+            </div>
+
+            <div class="progress-track">
+
+                <div
+                    id="weightProgress"
+                    class="progress-fill purple-fill">
+                </div>
+
+            </div>
+
+            <div
+                id="weightPercent"
+                class="small-note"
+                style="margin-top:6px;">
+                0%
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-title">
+            Add Weight
+        </div>
+
+        <label>Today's weight</label>
+
+        <div class="custom-row">
+
+            <input
+                id="newWeight"
+                type="number"
+                step="0.1"
+                placeholder="Example: 185.5">
+
+            <button
+                class="add-button"
+                onclick="addWeight()">
+                SAVE
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-title">
+            Weight Goals
+        </div>
+
+        <label>Starting weight</label>
+
+        <input
+            id="startingWeightInput"
+            type="number"
+            step="0.1"
+            placeholder="Starting weight">
+
+        <label style="margin-top:14px;">
+            Goal weight
+        </label>
+
+        <input
+            id="goalWeightInput"
+            type="number"
+            step="0.1"
+            placeholder="Goal weight">
+
+        <button
+            class="main-button start"
+            style="margin-top:15px;"
+            onclick="saveWeightGoals()">
+            SAVE GOALS
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-title">
+            Weight History
+        </div>
+
+        <div id="weightHistory"></div>
+
+    </div>
+
+</div>
+
+<!-- HISTORY -->
+
+<div id="historyPage" class="page">
+
+    <h2 class="section-heading">
+        History
+    </h2>
+
+    <p class="section-subtitle">
+        Your fasting activity.
+    </p>
+
+    <div class="card">
+
+        <div id="historyList"></div>
+
+    </div>
+
+    <button
+        class="main-button danger"
+        onclick="clearHistory()">
+        CLEAR FAST HISTORY
+    </button>
+
+</div>
+
+<!-- SETTINGS -->
+
+<div id="settingsPage" class="page">
+
+    <h2 class="section-heading">
+        Settings
+    </h2>
+
+    <p class="section-subtitle">
+        FastTrack preferences.
+    </p>
+
+    <div class="card">
+
+        <div class="card-title">
+            FastTrack
+        </div>
+
+        <p class="small-note">
+            Fasting timers support durations from 1 hour to 30 days.
+        </p>
+
+        <p class="small-note">
+            Fast progress, water tracking and weight history are stored locally in this browser.
+        </p>
+
+        <p class="small-note">
+            The app is designed as a tracking tool. It does not determine the fasting duration, water intake, or weight target that is medically appropriate for you.
+        </p>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- NAV -->
+
+<div class="bottom-nav">
+
+<button
+    id="fastNav"
+    class="nav-button active"
+    onclick="showPage('fast')">
+
+    <span class="nav-icon">⏱</span>
+    FAST
+
+</button>
+
+<button
+    id="waterNav"
+    class="nav-button"
+    onclick="showPage('water')">
+
+    <span class="nav-icon">💧</span>
+    WATER
+
+</button>
+
+<button
+    id="weightNav"
+    class="nav-button"
+    onclick="showPage('weight')">
+
+    <span class="nav-icon">⚖️</span>
+    WEIGHT
+
+</button>
+
+<button
+    id="historyNav"
+    class="nav-button"
+    onclick="showPage('history')">
+
+    <span class="nav-icon">📊</span>
+    HISTORY
+
+</button>
+
+<button
+    id="settingsNav"
+    class="nav-button"
+    onclick="showPage('settings')">
+
+    <span class="nav-icon">⚙️</span>
+    SETTINGS
+
+</button>
+
+</div>
+
+<script>
+
+/* =========================
+NAVIGATION
+========================= */
+
+function showPage(page) {
+
+    document.querySelectorAll(".page")
+        .forEach(function(item) {
+            item.classList.remove("active");
+        });
+
+    document.querySelectorAll(".nav-button")
+        .forEach(function(item) {
+            item.classList.remove("active");
+        });
+
+    document
+        .getElementById(page + "Page")
+        .classList.add("active");
+
+    document
+        .getElementById(page + "Nav")
+        .classList.add("active");
+
+    if (page === "weight") {
+        updateWeightDisplay();
+    }
+
+    if (page === "history") {
+        showHistory();
+    }
+}
+
+
+/* =========================
+FASTING
+========================= */
+
+let selectedHours = 16;
+
+let fastStart = null;
+
+let fastEnd = null;
+
+let totalDuration = 0;
+
+let paused = false;
+
+let pauseStarted = null;
+
+let timerInterval = null;
+
+
+function chooseFast(hours, button) {
+
+    if (fastStart) {
+
+        alert("End your current fast first.");
+
+        return;
+    }
+
+    selectedHours = hours;
+
+    document.querySelectorAll(".preset")
+        .forEach(function(item) {
+            item.classList.remove("selected");
+        });
+
+    if (button) {
+        button.classList.add("selected");
+    }
+
+    updateSelectedFast();
+}
+
+
+function setCustomFast() {
+
+    let hours =
+        Number(
+            document.getElementById("customHours").value
+        );
+
+    if (!hours || hours < 1 || hours > 720) {
+
+        alert("Enter between 1 and 720 hours.");
+
+        return;
+    }
+
+    selectedHours = hours;
+
+    document.querySelectorAll(".preset")
+        .forEach(function(item) {
+            item.classList.remove("selected");
+        });
+
+    updateSelectedFast();
+}
+
+
+function durationText(hours) {
+
+    if (hours >= 24 && hours % 24 === 0) {
+
+        let days = hours / 24;
+
+        return days +
+            (days === 1 ? " Day" : " Days");
+    }
+
+    return hours +
+        (hours === 1 ? " Hour" : " Hours");
+}
+
+
+function updateSelectedFast() {
+
+    document.getElementById(
+        "selectedFastDisplay"
+    ).innerText =
+        durationText(selectedHours);
+}
+
+
+function startFast() {
+
+    if (fastStart) return;
+
+    fastStart = Date.now();
+
+    totalDuration =
+        selectedHours *
+        60 *
+        60 *
+        1000;
+
+    fastEnd =
+        fastStart +
+        totalDuration;
+
+    paused = false;
+
+    document.getElementById("fastSetup").style.display =
+        "none";
+
+    document.getElementById("startButton").style.display =
+        "none";
+
+    document.getElementById("runningButtons").style.display =
+        "grid";
+
+    document.getElementById("fastStatus").innerText =
+        "FAST IN PROGRESS";
+
+    saveFast();
+
+    startTimer();
+}
+
+
+function startTimer() {
+
+    clearInterval(timerInterval);
+
+    timerInterval =
+        setInterval(
+            updateTimer,
+            1000
+        );
+
+    updateTimer();
+}
+
+
+function updateTimer() {
+
+    if (!fastStart) return;
+
+    let now =
+        paused
+        ? pauseStarted
+        : Date.now();
+
+    let remaining =
+        fastEnd -
+        now;
+
+    if (remaining <= 0) {
+
+        completeFast();
+
+        return;
+    }
+
+    displayCountdown(remaining);
+
+    let elapsed =
+        totalDuration -
+        remaining;
+
+    let percent =
+        (elapsed / totalDuration) *
+        100;
+
+    percent =
+        Math.min(
+            100,
+            Math.max(0, percent)
+        );
+
+    document
+        .getElementById("fastRing")
+        .style
+        .setProperty(
+            "--progress",
+            (percent * 3.6) + "deg"
+        );
+
+    document.getElementById("fastPercent").innerText =
+        percent.toFixed(1) +
+        "% COMPLETE";
+
+    document.getElementById("elapsedDisplay").innerText =
+        formatElapsed(elapsed);
+
+    document.getElementById("startTime").innerText =
+        formatDate(fastStart);
+
+    document.getElementById("endTime").innerText =
+        formatDate(fastEnd);
+}
+
+
+function displayCountdown(milliseconds) {
+
+    let totalSeconds =
+        Math.max(
+            0,
+            Math.floor(milliseconds / 1000)
+        );
+
+    let days =
+        Math.floor(totalSeconds / 86400);
+
+    totalSeconds %= 86400;
+
+    let hours =
+        Math.floor(totalSeconds / 3600);
+
+    totalSeconds %= 3600;
+
+    let minutes =
+        Math.floor(totalSeconds / 60);
+
+    let seconds =
+        totalSeconds % 60;
+
+    document.getElementById("timer").innerText =
+        pad(days) + ":" +
+        pad(hours) + ":" +
+        pad(minutes) + ":" +
+        pad(seconds);
+}
+
+
+function pad(number) {
+
+    return String(number)
+        .padStart(2, "0");
+}
+
+
+function formatElapsed(milliseconds) {
+
+    let hours =
+        milliseconds / 3600000;
+
+    if (hours < 1) {
+
+        return Math.floor(
+            milliseconds / 60000
+        ) + " min";
+    }
+
+    if (hours < 24) {
+
+        return hours.toFixed(1) +
+            " hrs";
+    }
+
+    return (hours / 24).toFixed(1) +
+        " days";
+}
+
+
+function formatDate(timestamp) {
+
+    if (!timestamp) return "--";
+
+    return new Date(timestamp)
+        .toLocaleString(
+            [],
+            {
+                month: "short",
+                day: "numeric",
+                hour: "numeric",
+                minute: "2-digit"
+            }
+        );
+}
+
+
+function pauseFast() {
+
+    if (!fastStart) return;
+
+    if (paused) {
+
+        resumeFast();
+
+        return;
+    }
+
+    paused = true;
+
+    pauseStarted = Date.now();
+
+    document.getElementById("fastStatus").innerText =
+        "FAST PAUSED";
+
+    document.getElementById("pauseButton").innerText =
+        "RESUME";
+
+    saveFast();
+}
+
+
+function resumeFast() {
+
+    let pausedDuration =
+        Date.now() -
+        pauseStarted;
+
+    fastEnd += pausedDuration;
+
+    paused = false;
+
+    pauseStarted = null;
+
+    document.getElementById("fastStatus").innerText =
+        "FAST IN PROGRESS";
+
+    document.getElementById("pauseButton").innerText =
+        "PAUSE";
+
+    saveFast();
+}
+
+
+function cancelFast() {
+
+    if (!confirm("End this fast?")) return;
+
+    addFastHistory("Cancelled");
+
+    resetFast();
+}
+
+
+function completeFast() {
+
+    addFastHistory("Completed");
+
+    alert("🎉 Fast complete!");
+
+    resetFast();
+}
+
+
+function resetFast() {
+
+    clearInterval(timerInterval);
+
+    fastStart = null;
+
+    fastEnd = null;
+
+    totalDuration = 0;
+
+    paused = false;
+
+    pauseStarted = null;
+
+    localStorage.removeItem(
+        "fastTrackCurrentFast"
+    );
+
+    document.getElementById("timer").innerText =
+        "00:00:00:00";
+
+    document.getElementById("fastPercent").innerText =
+        "0% COMPLETE";
+
+    document.getElementById("fastStatus").innerText =
+        "READY TO FAST";
+
+    document.getElementById("elapsedDisplay").innerText =
+        "0 Hours";
+
+    document.getElementById("startTime").innerText =
+        "--";
+
+    document.getElementById("endTime").innerText =
+        "--";
+
+    document.getElementById("fastSetup").style.display =
+        "block";
+
+    document.getElementById("startButton").style.display =
+        "block";
+
+    document.getElementById("runningButtons").style.display =
+        "none";
+
+    document.getElementById("fastRing")
+        .style
+        .setProperty("--progress","0deg");
+}
+
+
+function saveFast() {
+
+    localStorage.setItem(
+        "fastTrackCurrentFast",
+        JSON.stringify({
+            selectedHours,
+            fastStart,
+            fastEnd,
+            totalDuration,
+            paused,
+            pauseStarted
+        })
+    );
+}
+
+
+function loadFast() {
+
+    let saved =
+        localStorage.getItem(
+            "fastTrackCurrentFast"
+        );
+
+    if (!saved) return;
+
+    let data =
+        JSON.parse(saved);
+
+    selectedHours =
+        data.selectedHours;
+
+    fastStart =
+        data.fastStart;
+
+    fastEnd =
+        data.fastEnd;
+
+    totalDuration =
+        data.totalDuration;
+
+    paused =
+        data.paused;
+
+    pauseStarted =
+        data.pauseStarted;
+
+    updateSelectedFast();
+
+    document.getElementById("fastSetup").style.display =
+        "none";
+
+    document.getElementById("startButton").style.display =
+        "none";
+
+    document.getElementById("runningButtons").style.display =
+        "grid";
+
+    document.getElementById("fastStatus").innerText =
+        paused
+        ? "FAST PAUSED"
+        : "FAST IN PROGRESS";
+
+    document.getElementById("pauseButton").innerText =
+        paused
+        ? "RESUME"
+        : "PAUSE";
+
+    startTimer();
+}
+
+
+/* =========================
+WATER
+========================= */
+
+let lastWaterAmount = 0;
+
+
+function todayKey() {
+
+    let d = new Date();
+
+    return (
+        d.getFullYear() +
+        "-" +
+        (d.getMonth()+1) +
+        "-" +
+        d.getDate()
+    );
+}
+
+
+function getWaterData() {
+
+    let all =
+        JSON.parse(
+            localStorage.getItem(
+                "fastTrackWater"
+            )
+        ) || {};
+
+    let today =
+        todayKey();
+
+    if (!all[today]) {
+
+        all[today] = {
+            amount: 0,
+            goal: 100
+        };
+    }
+
+    return {
+        all,
+        today
+    };
+}
+
+
+function addWater(amount) {
+
+    let data =
+        getWaterData();
+
+    data.all[data.today].amount +=
+        amount;
+
+    lastWaterAmount =
+        amount;
+
+    localStorage.setItem(
+        "fastTrackWater",
+        JSON.stringify(data.all)
+    );
+
+    updateWaterDisplay();
+}
+
+
+function addCustomWater() {
+
+    let amount =
+        Number(
+            document.getElementById(
+                "customWater"
+            ).value
+        );
+
+    if (!amount || amount <= 0) {
+
+        alert("Enter a valid amount.");
+
+        return;
+    }
+
+    addWater(amount);
+
+    document.getElementById(
+        "customWater"
+    ).value =
+        "";
+}
+
+
+function undoWater() {
+
+    if (!lastWaterAmount) return;
+
+    let data =
+        getWaterData();
+
+    data.all[data.today].amount -=
+        lastWaterAmount;
+
+    if (
+        data.all[data.today].amount < 0
+    ) {
+
+        data.all[data.today].amount =
+            0;
+    }
+
+    lastWaterAmount = 0;
+
+    localStorage.setItem(
+        "fastTrackWater",
+        JSON.stringify(data.all)
+    );
+
+    updateWaterDisplay();
+}
+
+
+function resetWater() {
+
+    if (!confirm("Reset today's water?")) return;
+
+    let data =
+        getWaterData();
+
+    data.all[data.today].amount =
+        0;
+
+    localStorage.setItem(
+        "fastTrackWater",
+        JSON.stringify(data.all)
+    );
+
+    updateWaterDisplay();
+}
+
+
+function saveWaterGoal() {
+
+    let goal =
+        Number(
+            document.getElementById(
+                "waterGoal"
+            ).value
+        );
+
+    if (!goal || goal <= 0) return;
+
+    let data =
+        getWaterData();
+
+    data.all[data.today].goal =
+        goal;
+
+    localStorage.setItem(
+        "fastTrackWater",
+        JSON.stringify(data.all)
+    );
+
+    updateWaterDisplay();
+}
+
+
+function updateWaterDisplay() {
+
+    let data =
+        getWaterData();
+
+    let today =
+        data.all[data.today];
+
+    let percent =
+        (today.amount / today.goal) *
+        100;
+
+    document.getElementById(
+        "waterAmount"
+    ).innerText =
+        today.amount +
+        " oz";
+
+    document.getElementById(
+        "waterGoalText"
+    ).innerText =
+        "Goal: " +
+        today.goal +
+        " oz";
+
+    document.getElementById(
+        "waterPercent"
+    ).innerText =
+        Math.round(percent) +
+        "% of today's goal";
+
+    document.getElementById(
+        "waterFill"
+    ).style.height =
+        Math.min(percent,100) +
+        "%";
+
+    document.getElementById(
+        "waterGoal"
+    ).value =
+        today.goal;
+}
+
+
+/* =========================
+WEIGHT
+========================= */
+
+function getWeightData() {
+
+    return JSON.parse(
+        localStorage.getItem(
+            "fastTrackWeight"
+        )
+    ) || {
+        startingWeight: null,
+        goalWeight: null,
+        entries: []
+    };
+}
+
+
+function saveWeightData(data) {
+
+    localStorage.setItem(
+        "fastTrackWeight",
+        JSON.stringify(data)
+    );
+}
+
+
+function saveWeightGoals() {
+
+    let start =
+        Number(
+            document.getElementById(
+                "startingWeightInput"
+            ).value
+        );
+
+    let goal =
+        Number(
+            document.getElementById(
+                "goalWeightInput"
+            ).value
+        );
+
+    if (!start || !goal) {
+
+        alert(
+            "Enter a starting weight and goal weight."
+        );
+
+        return;
+    }
+
+    let data =
+        getWeightData();
+
+    data.startingWeight =
+        start;
+
+    data.goalWeight =
+        goal;
+
+    saveWeightData(data);
+
+    updateWeightDisplay();
+}
+
+
+function addWeight() {
+
+    let weight =
+        Number(
+            document.getElementById(
+                "newWeight"
+            ).value
+        );
+
+    if (!weight || weight <= 0) {
+
+        alert(
+            "Enter a valid weight."
+        );
+
+        return;
+    }
+
+    let data =
+        getWeightData();
+
+    data.entries.unshift({
+        weight: weight,
+        date: Date.now()
+    });
+
+    saveWeightData(data);
+
+    document.getElementById(
+        "newWeight"
+    ).value =
+        "";
+
+    updateWeightDisplay();
+}
+
+
+function updateWeightDisplay() {
+
+    let data =
+        getWeightData();
+
+    let current =
+        data.entries.length
+        ? data.entries[0].weight
+        : null;
+
+    document.getElementById(
+        "startingWeightDisplay"
+    ).innerText =
+        data.startingWeight
+        ? data.startingWeight + " lb"
+        : "--";
+
+    document.getElementById(
+        "goalWeightDisplay"
+    ).innerText =
+        data.goalWeight
+        ? data.goalWeight + " lb"
+        : "--";
+
+    document.getElementById(
+        "currentWeight"
+    ).innerText =
+        current
+        ? current
+        : "--";
+
+    if (
+        current &&
+        data.startingWeight
+    ) {
+
+        let difference =
+            data.startingWeight -
+            current;
+
+        document.getElementById(
+            "weightChange"
+        ).innerText =
+            difference >= 0
+            ? difference.toFixed(1) +
+              " lb lost"
+            : Math.abs(difference)
+              .toFixed(1) +
+              " lb gained";
+
+    } else {
+
+        document.getElementById(
+            "weightChange"
+        ).innerText =
+            "";
+    }
+
+    let progress = 0;
+
+    if (
+        current &&
+        data.startingWeight &&
+        data.goalWeight &&
+        data.startingWeight !==
+        data.goalWeight
+    ) {
+
+        progress =
+            (
+                (
+                    data.startingWeight -
+                    current
+                )
+                /
+                (
+                    data.startingWeight -
+                    data.goalWeight
+                )
+            ) *
+            100;
+
+        progress =
+            Math.min(
+                100,
+                Math.max(0, progress)
+            );
+    }
+
+    document.getElementById(
+        "weightProgress"
+    ).style.width =
+        progress +
+        "%";
+
+    document.getElementById(
+        "weightPercent"
+    ).innerText =
+        progress.toFixed(1) +
+        "% toward goal";
+
+    document.getElementById(
+        "startingWeightInput"
+    ).value =
+        data.startingWeight || "";
+
+    document.getElementById(
+        "goalWeightInput"
+    ).value =
+        data.goalWeight || "";
+
+    showWeightHistory(data);
+}
+
+
+function showWeightHistory(data) {
+
+    let container =
+        document.getElementById(
+            "weightHistory"
+        );
+
+    if (!data.entries.length) {
+
+        container.innerHTML =
+            '<div class="empty">' +
+            'No weight entries yet.' +
+            '</div>';
+
+        return;
+    }
+
+    container.innerHTML = "";
+
+    data.entries
+        .slice(0,20)
+        .forEach(function(entry) {
+
+            let div =
+                document.createElement(
+                    "div"
+                );
+
+            div.className =
+                "weight-history-item";
+
+            div.innerHTML =
+                "<div>" +
+                "<strong>" +
+                entry.weight +
+                " lb</strong>" +
+                "</div>" +
+
+                '<div class="weight-history-date">' +
+                new Date(
+                    entry.date
+                ).toLocaleDateString() +
+                "</div>";
+
+            container.appendChild(div);
+        });
+}
+
+
+/* =========================
+FAST HISTORY
+========================= */
+
+function addFastHistory(status) {
+
+    let history =
+        JSON.parse(
+            localStorage.getItem(
+                "fastTrackHistory"
+            )
+        ) || [];
+
+    history.unshift({
+        duration: selectedHours,
+        status: status,
+        date: Date.now()
+    });
+
+    localStorage.setItem(
+        "fastTrackHistory",
+        JSON.stringify(history)
+    );
+}
+
+
+function showHistory() {
+
+    let history =
+        JSON.parse(
+            localStorage.getItem(
+                "fastTrackHistory"
+            )
+        ) || [];
+
+    let container =
+        document.getElementById(
+            "historyList"
+        );
+
+    if (!history.length) {
+
+        container.innerHTML =
+            '<div class="empty">' +
+            'No fasting history yet.' +
+            '</div>';
+
+        return;
+    }
+
+    container.innerHTML = "";
+
+    history.forEach(function(item) {
+
+        let div =
+            document.createElement(
+                "div"
+            );
+
+        div.className =
+            "history-item";
+
+        let statusClass =
+            item.status === "Completed"
+            ? "completed"
+            : "cancelled";
+
+        div.innerHTML =
+
+            '<div class="history-top">' +
+
+                '<strong>' +
+                durationText(
+                    item.duration
+                ) +
+                '</strong>' +
+
+                '<span class="' +
+                statusClass +
+                '">' +
+                item.status +
+                '</span>' +
+
+            '</div>' +
+
+            '<div class="history-date">' +
+            new Date(
+                item.date
+            ).toLocaleString() +
+            '</div>';
+
+        container.appendChild(div);
+    });
+}
+
+
+function clearHistory() {
+
+    if (
+        confirm(
+            "Clear fasting history?"
+        )
+    ) {
+
+        localStorage.removeItem(
+            "fastTrackHistory"
+        );
+
+        showHistory();
+    }
+}
+
+
+/* =========================
+START APP
+========================= */
+
+function initializeApp() {
+
+    updateSelectedFast();
+
+    updateWaterDisplay();
+
+    updateWeightDisplay();
+
+    showHistory();
+
+    loadFast();
+}
+
+initializeApp();
+
+</script>
+
+</body>
+</html>

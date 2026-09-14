@@ -33,7 +33,9 @@ body {
 }
 
 button,
-input {
+input,
+select,
+textarea {
     font-family: inherit;
 }
 
@@ -114,7 +116,9 @@ input {
     text-align: center;
 }
 
-/* FAST RING */
+/* =========================
+FAST RING
+========================= */
 
 .ring-wrap {
     display: flex;
@@ -124,26 +128,35 @@ input {
 
 .progress-ring {
     --progress: 0deg;
+
     width: 270px;
     height: 270px;
+
     border-radius: 50%;
+
     background:
         conic-gradient(
             var(--green) var(--progress),
             #22334a var(--progress)
         );
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     position: relative;
 }
 
 .progress-ring::before {
     content: "";
+
     position: absolute;
+
     width: 238px;
     height: 238px;
+
     background: var(--bg);
+
     border-radius: 50%;
 }
 
@@ -177,7 +190,9 @@ input {
     font-weight: bold;
 }
 
-/* STATS */
+/* =========================
+STATS
+========================= */
 
 .stats-grid {
     display: grid;
@@ -202,7 +217,9 @@ input {
     font-size: 15px;
 }
 
-/* BUTTONS */
+/* =========================
+BUTTONS
+========================= */
 
 .main-button {
     width: 100%;
@@ -237,7 +254,9 @@ input {
     margin-top: 12px;
 }
 
-/* PRESETS */
+/* =========================
+PRESETS
+========================= */
 
 .presets {
     display: grid;
@@ -261,7 +280,9 @@ input {
     color: var(--green);
 }
 
-/* INPUT */
+/* =========================
+INPUTS
+========================= */
 
 label {
     display: block;
@@ -270,7 +291,9 @@ label {
     margin-bottom: 7px;
 }
 
-input {
+input,
+select,
+textarea {
     width: 100%;
     padding: 14px;
     border-radius: 14px;
@@ -279,6 +302,11 @@ input {
     color: white;
     font-size: 16px;
     outline: none;
+}
+
+textarea {
+    min-height: 110px;
+    resize: vertical;
 }
 
 .custom-row {
@@ -297,7 +325,9 @@ input {
     cursor: pointer;
 }
 
-/* WATER */
+/* =========================
+WATER
+========================= */
 
 .water-card {
     background:
@@ -358,6 +388,10 @@ input {
     cursor: pointer;
 }
 
+/* =========================
+PROGRESS BARS
+========================= */
+
 .progress-track {
     height: 14px;
     background: #22334a;
@@ -373,15 +407,13 @@ input {
     transition: width .4s;
 }
 
-.blue-fill {
-    background: var(--blue);
-}
-
 .purple-fill {
     background: var(--purple);
 }
 
-/* WEIGHT */
+/* =========================
+WEIGHT
+========================= */
 
 .weight-main {
     text-align: center;
@@ -419,7 +451,83 @@ input {
     font-size: 12px;
 }
 
-/* HISTORY */
+/* =========================
+FAST JOURNAL
+========================= */
+
+.journal-card {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(167,139,250,.10),
+            rgba(16,29,46,1)
+        );
+}
+
+.journal-day {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.journal-day-number {
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--purple);
+}
+
+.journal-date {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.journal-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.journal-field {
+    background: var(--card2);
+    padding: 12px;
+    border-radius: 14px;
+}
+
+.journal-history-item {
+    background: var(--card2);
+    border-radius: 16px;
+    padding: 14px;
+    margin-bottom: 10px;
+}
+
+.journal-history-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.journal-history-day {
+    font-weight: bold;
+    color: var(--purple);
+}
+
+.journal-history-meta {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.journal-history-note {
+    margin-top: 10px;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+/* =========================
+HISTORY
+========================= */
 
 .history-item {
     background: var(--card2);
@@ -459,19 +567,26 @@ input {
     line-height: 1.5;
 }
 
-/* BOTTOM NAV */
+/* =========================
+BOTTOM NAVIGATION
+========================= */
 
 .bottom-nav {
     position: fixed;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
+
     width: min(500px,100%);
     height: 80px;
+
     background: rgba(10,21,35,.98);
+
     border-top: 1px solid var(--border);
+
     display: grid;
     grid-template-columns: repeat(5,1fr);
+
     z-index: 50;
 }
 
@@ -516,6 +631,10 @@ input {
     .water-buttons {
         grid-template-columns: repeat(2,1fr);
     }
+
+    .journal-grid {
+        grid-template-columns: 1fr;
+    }
 }
 </style>
 </head>
@@ -532,14 +651,17 @@ input {
 
         <div>
             <h1>FastTrack</h1>
-            <p>Fasting • Water • Weight</p>
+            <p>Fasting • Water • Weight • Journal</p>
         </div>
 
     </div>
 
 </div>
 
-<!-- FAST PAGE -->
+
+<!-- =========================
+FAST PAGE
+========================= -->
 
 <div id="fastPage" class="page active">
 
@@ -571,41 +693,74 @@ input {
 
     </div>
 
+
     <div class="card">
 
         <div class="stats-grid">
 
             <div class="stat-box">
-                <div class="stat-label">FAST LENGTH</div>
-                <div id="selectedFastDisplay" class="stat-value">
+
+                <div class="stat-label">
+                    FAST LENGTH
+                </div>
+
+                <div
+                    id="selectedFastDisplay"
+                    class="stat-value">
                     16 Hours
                 </div>
+
             </div>
 
+
             <div class="stat-box">
-                <div class="stat-label">TIME FASTED</div>
-                <div id="elapsedDisplay" class="stat-value">
+
+                <div class="stat-label">
+                    TIME FASTED
+                </div>
+
+                <div
+                    id="elapsedDisplay"
+                    class="stat-value">
                     0 Hours
                 </div>
+
             </div>
 
-            <div class="stat-box">
-                <div class="stat-label">STARTED</div>
-                <div id="startTime" class="stat-value">
-                    --
-                </div>
-            </div>
 
             <div class="stat-box">
-                <div class="stat-label">TARGET</div>
-                <div id="endTime" class="stat-value">
+
+                <div class="stat-label">
+                    STARTED
+                </div>
+
+                <div
+                    id="startTime"
+                    class="stat-value">
                     --
                 </div>
+
+            </div>
+
+
+            <div class="stat-box">
+
+                <div class="stat-label">
+                    TARGET
+                </div>
+
+                <div
+                    id="endTime"
+                    class="stat-value">
+                    --
+                </div>
+
             </div>
 
         </div>
 
     </div>
+
 
     <button
         id="startButton"
@@ -613,6 +768,7 @@ input {
         onclick="startFast()">
         START FAST
     </button>
+
 
     <div
         id="runningButtons"
@@ -634,6 +790,7 @@ input {
 
     </div>
 
+
     <div
         id="fastSetup"
         class="card"
@@ -645,35 +802,62 @@ input {
 
         <div class="presets">
 
-            <button class="preset" onclick="chooseFast(12,this)">12 HR</button>
+            <button class="preset" onclick="chooseFast(12,this)">
+                12 HR
+            </button>
 
-            <button class="preset selected" onclick="chooseFast(16,this)">16 HR</button>
+            <button class="preset selected" onclick="chooseFast(16,this)">
+                16 HR
+            </button>
 
-            <button class="preset" onclick="chooseFast(18,this)">18 HR</button>
+            <button class="preset" onclick="chooseFast(18,this)">
+                18 HR
+            </button>
 
-            <button class="preset" onclick="chooseFast(20,this)">20 HR</button>
+            <button class="preset" onclick="chooseFast(20,this)">
+                20 HR
+            </button>
 
-            <button class="preset" onclick="chooseFast(24,this)">24 HR</button>
+            <button class="preset" onclick="chooseFast(24,this)">
+                24 HR
+            </button>
 
-            <button class="preset" onclick="chooseFast(36,this)">36 HR</button>
+            <button class="preset" onclick="chooseFast(36,this)">
+                36 HR
+            </button>
 
-            <button class="preset" onclick="chooseFast(48,this)">48 HR</button>
+            <button class="preset" onclick="chooseFast(48,this)">
+                48 HR
+            </button>
 
-            <button class="preset" onclick="chooseFast(72,this)">3 DAYS</button>
+            <button class="preset" onclick="chooseFast(72,this)">
+                3 DAYS
+            </button>
 
-            <button class="preset" onclick="chooseFast(168,this)">7 DAYS</button>
+            <button class="preset" onclick="chooseFast(168,this)">
+                7 DAYS
+            </button>
 
-            <button class="preset" onclick="chooseFast(336,this)">14 DAYS</button>
+            <button class="preset" onclick="chooseFast(336,this)">
+                14 DAYS
+            </button>
 
-            <button class="preset" onclick="chooseFast(504,this)">21 DAYS</button>
+            <button class="preset" onclick="chooseFast(504,this)">
+                21 DAYS
+            </button>
 
-            <button class="preset" onclick="chooseFast(720,this)">30 DAYS</button>
+            <button class="preset" onclick="chooseFast(720,this)">
+                30 DAYS
+            </button>
 
         </div>
 
+
         <div style="margin-top:18px;">
 
-            <label>Custom fast in hours</label>
+            <label>
+                Custom fast in hours
+            </label>
 
             <div class="custom-row">
 
@@ -696,9 +880,215 @@ input {
 
     </div>
 
+
+    <!-- FAST JOURNAL -->
+
+    <div class="card journal-card">
+
+        <div class="journal-day">
+
+            <div>
+
+                <div class="small-note">
+                    DAILY FAST JOURNAL
+                </div>
+
+                <div
+                    id="journalDay"
+                    class="journal-day-number">
+                    Fast Day 1
+                </div>
+
+            </div>
+
+            <div
+                id="journalDate"
+                class="journal-date">
+            </div>
+
+        </div>
+
+
+        <div class="journal-grid">
+
+            <div class="journal-field">
+
+                <label>
+                    Mood
+                </label>
+
+                <select id="journalMood">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="😄 Great">
+                        😄 Great
+                    </option>
+
+                    <option value="🙂 Good">
+                        🙂 Good
+                    </option>
+
+                    <option value="😐 Okay">
+                        😐 Okay
+                    </option>
+
+                    <option value="😕 Low">
+                        😕 Low
+                    </option>
+
+                    <option value="😣 Rough">
+                        😣 Rough
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="journal-field">
+
+                <label>
+                    Hunger
+                </label>
+
+                <select id="journalHunger">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="1">
+                        1 - None
+                    </option>
+
+                    <option value="2">
+                        2 - Mild
+                    </option>
+
+                    <option value="3">
+                        3 - Moderate
+                    </option>
+
+                    <option value="4">
+                        4 - Hungry
+                    </option>
+
+                    <option value="5">
+                        5 - Very Hungry
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="journal-field">
+
+                <label>
+                    Energy
+                </label>
+
+                <select id="journalEnergy">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="1">
+                        1 - Very Low
+                    </option>
+
+                    <option value="2">
+                        2 - Low
+                    </option>
+
+                    <option value="3">
+                        3 - Normal
+                    </option>
+
+                    <option value="4">
+                        4 - Good
+                    </option>
+
+                    <option value="5">
+                        5 - Excellent
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="journal-field">
+
+                <label>
+                    Water Today
+                </label>
+
+                <div
+                    id="journalWater"
+                    style="
+                    font-size:20px;
+                    font-weight:bold;
+                    color:var(--blue);
+                    padding-top:6px;">
+                    0 oz
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <label>
+            How are you feeling today?
+        </label>
+
+        <textarea
+            id="journalNotes"
+            placeholder="Example: Slept well. Hunger was strongest in the afternoon. Energy stayed pretty good...">
+        </textarea>
+
+
+        <button
+            class="main-button start"
+            style="margin-top:12px;"
+            onclick="saveJournalEntry()">
+            SAVE TODAY'S JOURNAL
+        </button>
+
+
+        <div
+            id="journalSavedMessage"
+            class="center"
+            style="
+            color:var(--green);
+            margin-top:10px;
+            font-size:13px;">
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-title">
+            Journal History
+        </div>
+
+        <div id="journalHistory"></div>
+
+    </div>
+
 </div>
 
-<!-- WATER PAGE -->
+
+<!-- =========================
+WATER PAGE
+========================= -->
 
 <div id="waterPage" class="page">
 
@@ -709,6 +1099,7 @@ input {
     <p class="section-subtitle">
         Track daily water consumption.
     </p>
+
 
     <div class="card water-card">
 
@@ -721,7 +1112,9 @@ input {
 
             <div class="water-content">
 
-                <div style="font-size:28px;">💧</div>
+                <div style="font-size:28px;">
+                    💧
+                </div>
 
                 <div
                     id="waterAmount"
@@ -739,6 +1132,7 @@ input {
 
         </div>
 
+
         <div
             id="waterPercent"
             class="center">
@@ -746,6 +1140,7 @@ input {
         </div>
 
     </div>
+
 
     <div class="card">
 
@@ -789,9 +1184,12 @@ input {
 
         </div>
 
+
         <div style="margin-top:20px;">
 
-            <label>Custom water amount</label>
+            <label>
+                Custom water amount
+            </label>
 
             <div class="custom-row">
 
@@ -811,6 +1209,7 @@ input {
         </div>
 
     </div>
+
 
     <div class="card">
 
@@ -837,7 +1236,10 @@ input {
 
 </div>
 
-<!-- WEIGHT PAGE -->
+
+<!-- =========================
+WEIGHT PAGE
+========================= -->
 
 <div id="weightPage" class="page">
 
@@ -849,6 +1251,7 @@ input {
         Track your progress toward your goal.
     </p>
 
+
     <div class="card">
 
         <div class="weight-main">
@@ -857,7 +1260,9 @@ input {
                 CURRENT WEIGHT
             </div>
 
-            <div id="currentWeight" class="weight-number">
+            <div
+                id="currentWeight"
+                class="weight-number">
                 --
             </div>
 
@@ -872,6 +1277,7 @@ input {
 
         </div>
 
+
         <div class="stats-grid">
 
             <div class="stat-box">
@@ -880,11 +1286,14 @@ input {
                     STARTING
                 </div>
 
-                <div id="startingWeightDisplay" class="stat-value">
+                <div
+                    id="startingWeightDisplay"
+                    class="stat-value">
                     --
                 </div>
 
             </div>
+
 
             <div class="stat-box">
 
@@ -892,13 +1301,16 @@ input {
                     GOAL
                 </div>
 
-                <div id="goalWeightDisplay" class="stat-value">
+                <div
+                    id="goalWeightDisplay"
+                    class="stat-value">
                     --
                 </div>
 
             </div>
 
         </div>
+
 
         <div style="margin-top:18px;">
 
@@ -926,13 +1338,16 @@ input {
 
     </div>
 
+
     <div class="card">
 
         <div class="card-title">
             Add Weight
         </div>
 
-        <label>Today's weight</label>
+        <label>
+            Today's weight
+        </label>
 
         <div class="custom-row">
 
@@ -952,19 +1367,23 @@ input {
 
     </div>
 
+
     <div class="card">
 
         <div class="card-title">
             Weight Goals
         </div>
 
-        <label>Starting weight</label>
+        <label>
+            Starting weight
+        </label>
 
         <input
             id="startingWeightInput"
             type="number"
             step="0.1"
             placeholder="Starting weight">
+
 
         <label style="margin-top:14px;">
             Goal weight
@@ -976,6 +1395,7 @@ input {
             step="0.1"
             placeholder="Goal weight">
 
+
         <button
             class="main-button start"
             style="margin-top:15px;"
@@ -984,6 +1404,7 @@ input {
         </button>
 
     </div>
+
 
     <div class="card">
 
@@ -997,7 +1418,10 @@ input {
 
 </div>
 
-<!-- HISTORY -->
+
+<!-- =========================
+HISTORY PAGE
+========================= -->
 
 <div id="historyPage" class="page">
 
@@ -1009,11 +1433,13 @@ input {
         Your fasting activity.
     </p>
 
+
     <div class="card">
 
         <div id="historyList"></div>
 
     </div>
+
 
     <button
         class="main-button danger"
@@ -1023,7 +1449,10 @@ input {
 
 </div>
 
-<!-- SETTINGS -->
+
+<!-- =========================
+SETTINGS PAGE
+========================= -->
 
 <div id="settingsPage" class="page">
 
@@ -1034,6 +1463,7 @@ input {
     <p class="section-subtitle">
         FastTrack preferences.
     </p>
+
 
     <div class="card">
 
@@ -1046,11 +1476,11 @@ input {
         </p>
 
         <p class="small-note">
-            Fast progress, water tracking and weight history are stored locally in this browser.
+            Fasting progress, water tracking, weight history and journal entries are stored locally in this browser.
         </p>
 
         <p class="small-note">
-            The app is designed as a tracking tool. It does not determine the fasting duration, water intake, or weight target that is medically appropriate for you.
+            This app is a tracking tool and does not determine what fasting duration, hydration amount or weight target is medically appropriate for you.
         </p>
 
     </div>
@@ -1059,7 +1489,10 @@ input {
 
 </div>
 
-<!-- NAV -->
+
+<!-- =========================
+BOTTOM NAV
+========================= -->
 
 <div class="bottom-nav">
 
@@ -1068,52 +1501,72 @@ input {
     class="nav-button active"
     onclick="showPage('fast')">
 
-    <span class="nav-icon">⏱</span>
+    <span class="nav-icon">
+        ⏱
+    </span>
+
     FAST
 
 </button>
+
 
 <button
     id="waterNav"
     class="nav-button"
     onclick="showPage('water')">
 
-    <span class="nav-icon">💧</span>
+    <span class="nav-icon">
+        💧
+    </span>
+
     WATER
 
 </button>
+
 
 <button
     id="weightNav"
     class="nav-button"
     onclick="showPage('weight')">
 
-    <span class="nav-icon">⚖️</span>
+    <span class="nav-icon">
+        ⚖️
+    </span>
+
     WEIGHT
 
 </button>
+
 
 <button
     id="historyNav"
     class="nav-button"
     onclick="showPage('history')">
 
-    <span class="nav-icon">📊</span>
+    <span class="nav-icon">
+        📊
+    </span>
+
     HISTORY
 
 </button>
+
 
 <button
     id="settingsNav"
     class="nav-button"
     onclick="showPage('settings')">
 
-    <span class="nav-icon">⚙️</span>
+    <span class="nav-icon">
+        ⚙️
+    </span>
+
     SETTINGS
 
 </button>
 
 </div>
+
 
 <script>
 
@@ -1125,34 +1578,57 @@ function showPage(page) {
 
     document.querySelectorAll(".page")
         .forEach(function(item) {
+
             item.classList.remove("active");
+
         });
+
 
     document.querySelectorAll(".nav-button")
         .forEach(function(item) {
+
             item.classList.remove("active");
+
         });
+
 
     document
         .getElementById(page + "Page")
         .classList.add("active");
 
+
     document
         .getElementById(page + "Nav")
         .classList.add("active");
 
+
     if (page === "weight") {
+
         updateWeightDisplay();
+
     }
 
+
     if (page === "history") {
+
         showHistory();
+
     }
+
+
+    if (page === "fast") {
+
+        loadTodayJournal();
+
+        showJournalHistory();
+
+    }
+
 }
 
 
 /* =========================
-FASTING
+FASTING VARIABLES
 ========================= */
 
 let selectedHours = 16;
@@ -1170,84 +1646,170 @@ let pauseStarted = null;
 let timerInterval = null;
 
 
+/* =========================
+CHOOSE FAST
+========================= */
+
 function chooseFast(hours, button) {
 
     if (fastStart) {
 
-        alert("End your current fast first.");
+        alert(
+            "End your current fast first."
+        );
 
         return;
     }
 
-    selectedHours = hours;
 
-    document.querySelectorAll(".preset")
+    selectedHours =
+        hours;
+
+
+    document
+        .querySelectorAll(".preset")
         .forEach(function(item) {
-            item.classList.remove("selected");
+
+            item.classList.remove(
+                "selected"
+            );
+
         });
 
+
     if (button) {
-        button.classList.add("selected");
+
+        button.classList.add(
+            "selected"
+        );
+
     }
 
+
     updateSelectedFast();
+
 }
 
+
+/* =========================
+CUSTOM FAST
+========================= */
 
 function setCustomFast() {
 
     let hours =
         Number(
-            document.getElementById("customHours").value
+            document
+                .getElementById(
+                    "customHours"
+                )
+                .value
         );
 
-    if (!hours || hours < 1 || hours > 720) {
 
-        alert("Enter between 1 and 720 hours.");
+    if (
+        !hours ||
+        hours < 1 ||
+        hours > 720
+    ) {
+
+        alert(
+            "Enter between 1 and 720 hours."
+        );
 
         return;
     }
 
-    selectedHours = hours;
 
-    document.querySelectorAll(".preset")
+    selectedHours =
+        hours;
+
+
+    document
+        .querySelectorAll(".preset")
         .forEach(function(item) {
-            item.classList.remove("selected");
+
+            item.classList.remove(
+                "selected"
+            );
+
         });
 
+
     updateSelectedFast();
+
 }
 
+
+/* =========================
+DURATION TEXT
+========================= */
 
 function durationText(hours) {
 
-    if (hours >= 24 && hours % 24 === 0) {
+    if (
+        hours >= 24 &&
+        hours % 24 === 0
+    ) {
 
-        let days = hours / 24;
+        let days =
+            hours / 24;
+
 
         return days +
-            (days === 1 ? " Day" : " Days");
+            (
+                days === 1
+                ? " Day"
+                : " Days"
+            );
+
     }
 
+
     return hours +
-        (hours === 1 ? " Hour" : " Hours");
+        (
+            hours === 1
+            ? " Hour"
+            : " Hours"
+        );
+
 }
 
+
+/* =========================
+UPDATE SELECTED FAST
+========================= */
 
 function updateSelectedFast() {
 
-    document.getElementById(
-        "selectedFastDisplay"
-    ).innerText =
-        durationText(selectedHours);
+    document
+        .getElementById(
+            "selectedFastDisplay"
+        )
+        .innerText =
+        durationText(
+            selectedHours
+        );
+
 }
 
 
+/* =========================
+START FAST
+========================= */
+
 function startFast() {
 
-    if (fastStart) return;
+    if (fastStart) {
 
-    fastStart = Date.now();
+        return;
+
+    }
+
+
+    fastStart =
+        Date.now();
+
 
     totalDuration =
         selectedHours *
@@ -1255,33 +1817,70 @@ function startFast() {
         60 *
         1000;
 
+
     fastEnd =
         fastStart +
         totalDuration;
 
-    paused = false;
 
-    document.getElementById("fastSetup").style.display =
+    paused =
+        false;
+
+
+    document
+        .getElementById(
+            "fastSetup"
+        )
+        .style
+        .display =
         "none";
 
-    document.getElementById("startButton").style.display =
+
+    document
+        .getElementById(
+            "startButton"
+        )
+        .style
+        .display =
         "none";
 
-    document.getElementById("runningButtons").style.display =
+
+    document
+        .getElementById(
+            "runningButtons"
+        )
+        .style
+        .display =
         "grid";
 
-    document.getElementById("fastStatus").innerText =
+
+    document
+        .getElementById(
+            "fastStatus"
+        )
+        .innerText =
         "FAST IN PROGRESS";
+
 
     saveFast();
 
     startTimer();
+
+    loadTodayJournal();
+
 }
 
 
+/* =========================
+START TIMER
+========================= */
+
 function startTimer() {
 
-    clearInterval(timerInterval);
+    clearInterval(
+        timerInterval
+    );
+
 
     timerInterval =
         setInterval(
@@ -1289,172 +1888,350 @@ function startTimer() {
             1000
         );
 
+
     updateTimer();
+
 }
 
 
+/* =========================
+UPDATE TIMER
+========================= */
+
 function updateTimer() {
 
-    if (!fastStart) return;
+    if (!fastStart) {
+
+        return;
+
+    }
+
 
     let now =
         paused
         ? pauseStarted
         : Date.now();
 
+
     let remaining =
         fastEnd -
         now;
 
-    if (remaining <= 0) {
+
+    if (
+        remaining <= 0
+    ) {
 
         completeFast();
 
         return;
+
     }
 
-    displayCountdown(remaining);
+
+    displayCountdown(
+        remaining
+    );
+
 
     let elapsed =
         totalDuration -
         remaining;
 
+
     let percent =
-        (elapsed / totalDuration) *
+        (
+            elapsed /
+            totalDuration
+        ) *
         100;
+
 
     percent =
         Math.min(
             100,
-            Math.max(0, percent)
+            Math.max(
+                0,
+                percent
+            )
         );
 
+
     document
-        .getElementById("fastRing")
+        .getElementById(
+            "fastRing"
+        )
         .style
         .setProperty(
             "--progress",
-            (percent * 3.6) + "deg"
+            (
+                percent *
+                3.6
+            ) +
+            "deg"
         );
 
-    document.getElementById("fastPercent").innerText =
+
+    document
+        .getElementById(
+            "fastPercent"
+        )
+        .innerText =
         percent.toFixed(1) +
         "% COMPLETE";
 
-    document.getElementById("elapsedDisplay").innerText =
-        formatElapsed(elapsed);
 
-    document.getElementById("startTime").innerText =
-        formatDate(fastStart);
+    document
+        .getElementById(
+            "elapsedDisplay"
+        )
+        .innerText =
+        formatElapsed(
+            elapsed
+        );
 
-    document.getElementById("endTime").innerText =
-        formatDate(fastEnd);
+
+    document
+        .getElementById(
+            "startTime"
+        )
+        .innerText =
+        formatDate(
+            fastStart
+        );
+
+
+    document
+        .getElementById(
+            "endTime"
+        )
+        .innerText =
+        formatDate(
+            fastEnd
+        );
+
 }
 
 
-function displayCountdown(milliseconds) {
+/* =========================
+COUNTDOWN
+========================= */
+
+function displayCountdown(
+    milliseconds
+) {
 
     let totalSeconds =
         Math.max(
             0,
-            Math.floor(milliseconds / 1000)
+            Math.floor(
+                milliseconds /
+                1000
+            )
         );
 
-    let days =
-        Math.floor(totalSeconds / 86400);
 
-    totalSeconds %= 86400;
+    let days =
+        Math.floor(
+            totalSeconds /
+            86400
+        );
+
+
+    totalSeconds %=
+        86400;
+
 
     let hours =
-        Math.floor(totalSeconds / 3600);
+        Math.floor(
+            totalSeconds /
+            3600
+        );
 
-    totalSeconds %= 3600;
+
+    totalSeconds %=
+        3600;
+
 
     let minutes =
-        Math.floor(totalSeconds / 60);
+        Math.floor(
+            totalSeconds /
+            60
+        );
+
 
     let seconds =
-        totalSeconds % 60;
+        totalSeconds %
+        60;
 
-    document.getElementById("timer").innerText =
-        pad(days) + ":" +
-        pad(hours) + ":" +
-        pad(minutes) + ":" +
+
+    document
+        .getElementById(
+            "timer"
+        )
+        .innerText =
+        pad(days) +
+        ":" +
+        pad(hours) +
+        ":" +
+        pad(minutes) +
+        ":" +
         pad(seconds);
+
 }
 
+
+/* =========================
+PAD
+========================= */
 
 function pad(number) {
 
     return String(number)
-        .padStart(2, "0");
+        .padStart(
+            2,
+            "0"
+        );
+
 }
 
 
-function formatElapsed(milliseconds) {
+/* =========================
+FORMAT ELAPSED
+========================= */
+
+function formatElapsed(
+    milliseconds
+) {
 
     let hours =
-        milliseconds / 3600000;
+        milliseconds /
+        3600000;
 
-    if (hours < 1) {
+
+    if (
+        hours < 1
+    ) {
 
         return Math.floor(
-            milliseconds / 60000
-        ) + " min";
+            milliseconds /
+            60000
+        ) +
+        " min";
+
     }
 
-    if (hours < 24) {
+
+    if (
+        hours < 24
+    ) {
 
         return hours.toFixed(1) +
             " hrs";
+
     }
 
-    return (hours / 24).toFixed(1) +
+
+    return (
+        hours /
+        24
+    ).toFixed(1) +
         " days";
+
 }
 
 
-function formatDate(timestamp) {
+/* =========================
+FORMAT DATE
+========================= */
 
-    if (!timestamp) return "--";
+function formatDate(
+    timestamp
+) {
 
-    return new Date(timestamp)
-        .toLocaleString(
-            [],
-            {
-                month: "short",
-                day: "numeric",
-                hour: "numeric",
-                minute: "2-digit"
-            }
-        );
+    if (
+        !timestamp
+    ) {
+
+        return "--";
+
+    }
+
+
+    return new Date(
+        timestamp
+    )
+    .toLocaleString(
+        [],
+        {
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit"
+        }
+    );
+
 }
 
+
+/* =========================
+PAUSE FAST
+========================= */
 
 function pauseFast() {
 
-    if (!fastStart) return;
+    if (
+        !fastStart
+    ) {
 
-    if (paused) {
+        return;
+
+    }
+
+
+    if (
+        paused
+    ) {
 
         resumeFast();
 
         return;
+
     }
 
-    paused = true;
 
-    pauseStarted = Date.now();
+    paused =
+        true;
 
-    document.getElementById("fastStatus").innerText =
+
+    pauseStarted =
+        Date.now();
+
+
+    document
+        .getElementById(
+            "fastStatus"
+        )
+        .innerText =
         "FAST PAUSED";
 
-    document.getElementById("pauseButton").innerText =
+
+    document
+        .getElementById(
+            "pauseButton"
+        )
+        .innerText =
         "RESUME";
 
+
     saveFast();
+
 }
 
+
+/* =========================
+RESUME FAST
+========================= */
 
 function resumeFast() {
 
@@ -1462,161 +2239,355 @@ function resumeFast() {
         Date.now() -
         pauseStarted;
 
-    fastEnd += pausedDuration;
 
-    paused = false;
+    fastEnd +=
+        pausedDuration;
 
-    pauseStarted = null;
 
-    document.getElementById("fastStatus").innerText =
+    paused =
+        false;
+
+
+    pauseStarted =
+        null;
+
+
+    document
+        .getElementById(
+            "fastStatus"
+        )
+        .innerText =
         "FAST IN PROGRESS";
 
-    document.getElementById("pauseButton").innerText =
+
+    document
+        .getElementById(
+            "pauseButton"
+        )
+        .innerText =
         "PAUSE";
 
+
     saveFast();
+
 }
 
+
+/* =========================
+CANCEL FAST
+========================= */
 
 function cancelFast() {
 
-    if (!confirm("End this fast?")) return;
+    if (
+        !confirm(
+            "End this fast?"
+        )
+    ) {
 
-    addFastHistory("Cancelled");
+        return;
+
+    }
+
+
+    addFastHistory(
+        "Cancelled"
+    );
+
 
     resetFast();
+
 }
 
+
+/* =========================
+COMPLETE FAST
+========================= */
 
 function completeFast() {
 
-    addFastHistory("Completed");
+    addFastHistory(
+        "Completed"
+    );
 
-    alert("🎉 Fast complete!");
+
+    alert(
+        "🎉 Fast complete!"
+    );
+
 
     resetFast();
+
 }
 
+
+/* =========================
+RESET FAST
+========================= */
 
 function resetFast() {
 
-    clearInterval(timerInterval);
-
-    fastStart = null;
-
-    fastEnd = null;
-
-    totalDuration = 0;
-
-    paused = false;
-
-    pauseStarted = null;
-
-    localStorage.removeItem(
-        "fastTrackCurrentFast"
+    clearInterval(
+        timerInterval
     );
 
-    document.getElementById("timer").innerText =
+
+    fastStart =
+        null;
+
+    fastEnd =
+        null;
+
+    totalDuration =
+        0;
+
+    paused =
+        false;
+
+    pauseStarted =
+        null;
+
+
+    localStorage
+        .removeItem(
+            "fastTrackCurrentFast"
+        );
+
+
+    document
+        .getElementById(
+            "timer"
+        )
+        .innerText =
         "00:00:00:00";
 
-    document.getElementById("fastPercent").innerText =
+
+    document
+        .getElementById(
+            "fastPercent"
+        )
+        .innerText =
         "0% COMPLETE";
 
-    document.getElementById("fastStatus").innerText =
+
+    document
+        .getElementById(
+            "fastStatus"
+        )
+        .innerText =
         "READY TO FAST";
 
-    document.getElementById("elapsedDisplay").innerText =
+
+    document
+        .getElementById(
+            "elapsedDisplay"
+        )
+        .innerText =
         "0 Hours";
 
-    document.getElementById("startTime").innerText =
+
+    document
+        .getElementById(
+            "startTime"
+        )
+        .innerText =
         "--";
 
-    document.getElementById("endTime").innerText =
+
+    document
+        .getElementById(
+            "endTime"
+        )
+        .innerText =
         "--";
 
-    document.getElementById("fastSetup").style.display =
+
+    document
+        .getElementById(
+            "fastSetup"
+        )
+        .style
+        .display =
         "block";
 
-    document.getElementById("startButton").style.display =
+
+    document
+        .getElementById(
+            "startButton"
+        )
+        .style
+        .display =
         "block";
 
-    document.getElementById("runningButtons").style.display =
+
+    document
+        .getElementById(
+            "runningButtons"
+        )
+        .style
+        .display =
         "none";
 
-    document.getElementById("fastRing")
+
+    document
+        .getElementById(
+            "fastRing"
+        )
         .style
-        .setProperty("--progress","0deg");
+        .setProperty(
+            "--progress",
+            "0deg"
+        );
+
+
+    loadTodayJournal();
+
 }
 
+
+/* =========================
+SAVE FAST
+========================= */
 
 function saveFast() {
 
-    localStorage.setItem(
-        "fastTrackCurrentFast",
-        JSON.stringify({
-            selectedHours,
-            fastStart,
-            fastEnd,
-            totalDuration,
-            paused,
-            pauseStarted
-        })
-    );
+    localStorage
+        .setItem(
+            "fastTrackCurrentFast",
+            JSON.stringify(
+                {
+                    selectedHours,
+                    fastStart,
+                    fastEnd,
+                    totalDuration,
+                    paused,
+                    pauseStarted
+                }
+            )
+        );
+
 }
 
+
+/* =========================
+LOAD FAST
+========================= */
 
 function loadFast() {
 
     let saved =
-        localStorage.getItem(
-            "fastTrackCurrentFast"
-        );
+        localStorage
+            .getItem(
+                "fastTrackCurrentFast"
+            );
 
-    if (!saved) return;
 
-    let data =
-        JSON.parse(saved);
+    if (
+        !saved
+    ) {
+
+        return;
+
+    }
+
+
+    let data;
+
+
+    try {
+
+        data =
+            JSON.parse(
+                saved
+            );
+
+    } catch(error) {
+
+        localStorage
+            .removeItem(
+                "fastTrackCurrentFast"
+            );
+
+        return;
+    }
+
 
     selectedHours =
         data.selectedHours;
 
+
     fastStart =
         data.fastStart;
+
 
     fastEnd =
         data.fastEnd;
 
+
     totalDuration =
         data.totalDuration;
+
 
     paused =
         data.paused;
 
+
     pauseStarted =
         data.pauseStarted;
 
+
     updateSelectedFast();
 
-    document.getElementById("fastSetup").style.display =
+
+    document
+        .getElementById(
+            "fastSetup"
+        )
+        .style
+        .display =
         "none";
 
-    document.getElementById("startButton").style.display =
+
+    document
+        .getElementById(
+            "startButton"
+        )
+        .style
+        .display =
         "none";
 
-    document.getElementById("runningButtons").style.display =
+
+    document
+        .getElementById(
+            "runningButtons"
+        )
+        .style
+        .display =
         "grid";
 
-    document.getElementById("fastStatus").innerText =
+
+    document
+        .getElementById(
+            "fastStatus"
+        )
+        .innerText =
         paused
         ? "FAST PAUSED"
         : "FAST IN PROGRESS";
 
-    document.getElementById("pauseButton").innerText =
+
+    document
+        .getElementById(
+            "pauseButton"
+        )
+        .innerText =
         paused
         ? "RESUME"
         : "PAUSE";
 
+
     startTimer();
+
 }
 
 
@@ -1624,20 +2595,27 @@ function loadFast() {
 WATER
 ========================= */
 
-let lastWaterAmount = 0;
+let lastWaterAmount =
+    0;
 
 
 function todayKey() {
 
-    let d = new Date();
+    let d =
+        new Date();
+
 
     return (
         d.getFullYear() +
         "-" +
-        (d.getMonth()+1) +
+        (
+            d.getMonth() +
+            1
+        ) +
         "-" +
         d.getDate()
     );
+
 }
 
 
@@ -1645,46 +2623,71 @@ function getWaterData() {
 
     let all =
         JSON.parse(
-            localStorage.getItem(
-                "fastTrackWater"
-            )
+            localStorage
+                .getItem(
+                    "fastTrackWater"
+                )
         ) || {};
+
 
     let today =
         todayKey();
 
-    if (!all[today]) {
 
-        all[today] = {
+    if (
+        !all[today]
+    ) {
+
+        all[today] =
+        {
             amount: 0,
             goal: 100
         };
+
     }
+
 
     return {
         all,
         today
     };
+
 }
 
 
-function addWater(amount) {
+function addWater(
+    amount
+) {
 
     let data =
         getWaterData();
 
-    data.all[data.today].amount +=
+
+    data
+        .all[
+            data.today
+        ]
+        .amount +=
         amount;
+
 
     lastWaterAmount =
         amount;
 
-    localStorage.setItem(
-        "fastTrackWater",
-        JSON.stringify(data.all)
-    );
+
+    localStorage
+        .setItem(
+            "fastTrackWater",
+            JSON.stringify(
+                data.all
+            )
+        );
+
 
     updateWaterDisplay();
+
+    loadTodayJournal();
+
 }
 
 
@@ -1692,72 +2695,142 @@ function addCustomWater() {
 
     let amount =
         Number(
-            document.getElementById(
-                "customWater"
-            ).value
+            document
+                .getElementById(
+                    "customWater"
+                )
+                .value
         );
 
-    if (!amount || amount <= 0) {
 
-        alert("Enter a valid amount.");
+    if (
+        !amount ||
+        amount <= 0
+    ) {
+
+        alert(
+            "Enter a valid amount."
+        );
 
         return;
     }
 
-    addWater(amount);
 
-    document.getElementById(
-        "customWater"
-    ).value =
+    addWater(
+        amount
+    );
+
+
+    document
+        .getElementById(
+            "customWater"
+        )
+        .value =
         "";
+
 }
 
 
 function undoWater() {
 
-    if (!lastWaterAmount) return;
+    if (
+        !lastWaterAmount
+    ) {
+
+        return;
+
+    }
+
 
     let data =
         getWaterData();
 
-    data.all[data.today].amount -=
+
+    data
+        .all[
+            data.today
+        ]
+        .amount -=
         lastWaterAmount;
 
+
     if (
-        data.all[data.today].amount < 0
+        data
+            .all[
+                data.today
+            ]
+            .amount <
+        0
     ) {
 
-        data.all[data.today].amount =
+        data
+            .all[
+                data.today
+            ]
+            .amount =
             0;
+
     }
 
-    lastWaterAmount = 0;
 
-    localStorage.setItem(
-        "fastTrackWater",
-        JSON.stringify(data.all)
-    );
+    lastWaterAmount =
+        0;
+
+
+    localStorage
+        .setItem(
+            "fastTrackWater",
+            JSON.stringify(
+                data.all
+            )
+        );
+
 
     updateWaterDisplay();
+
+    loadTodayJournal();
+
 }
 
 
 function resetWater() {
 
-    if (!confirm("Reset today's water?")) return;
+    if (
+        !confirm(
+            "Reset today's water?"
+        )
+    ) {
+
+        return;
+
+    }
+
 
     let data =
         getWaterData();
 
-    data.all[data.today].amount =
+
+    data
+        .all[
+            data.today
+        ]
+        .amount =
         0;
 
-    localStorage.setItem(
-        "fastTrackWater",
-        JSON.stringify(data.all)
-    );
+
+    localStorage
+        .setItem(
+            "fastTrackWater",
+            JSON.stringify(
+                data.all
+            )
+        );
+
 
     updateWaterDisplay();
+
+    loadTodayJournal();
+
 }
 
 
@@ -1765,25 +2838,47 @@ function saveWaterGoal() {
 
     let goal =
         Number(
-            document.getElementById(
-                "waterGoal"
-            ).value
+            document
+                .getElementById(
+                    "waterGoal"
+                )
+                .value
         );
 
-    if (!goal || goal <= 0) return;
+
+    if (
+        !goal ||
+        goal <= 0
+    ) {
+
+        return;
+
+    }
+
 
     let data =
         getWaterData();
 
-    data.all[data.today].goal =
+
+    data
+        .all[
+            data.today
+        ]
+        .goal =
         goal;
 
-    localStorage.setItem(
-        "fastTrackWater",
-        JSON.stringify(data.all)
-    );
+
+    localStorage
+        .setItem(
+            "fastTrackWater",
+            JSON.stringify(
+                data.all
+            )
+        );
+
 
     updateWaterDisplay();
+
 }
 
 
@@ -1792,42 +2887,72 @@ function updateWaterDisplay() {
     let data =
         getWaterData();
 
+
     let today =
-        data.all[data.today];
+        data
+            .all[
+                data.today
+            ];
+
 
     let percent =
-        (today.amount / today.goal) *
+        (
+            today.amount /
+            today.goal
+        ) *
         100;
 
-    document.getElementById(
-        "waterAmount"
-    ).innerText =
+
+    document
+        .getElementById(
+            "waterAmount"
+        )
+        .innerText =
         today.amount +
         " oz";
 
-    document.getElementById(
-        "waterGoalText"
-    ).innerText =
+
+    document
+        .getElementById(
+            "waterGoalText"
+        )
+        .innerText =
         "Goal: " +
         today.goal +
         " oz";
 
-    document.getElementById(
-        "waterPercent"
-    ).innerText =
-        Math.round(percent) +
+
+    document
+        .getElementById(
+            "waterPercent"
+        )
+        .innerText =
+        Math.round(
+            percent
+        ) +
         "% of today's goal";
 
-    document.getElementById(
-        "waterFill"
-    ).style.height =
-        Math.min(percent,100) +
+
+    document
+        .getElementById(
+            "waterFill"
+        )
+        .style
+        .height =
+        Math.min(
+            percent,
+            100
+        ) +
         "%";
 
-    document.getElementById(
-        "waterGoal"
-    ).value =
+
+    document
+        .getElementById(
+            "waterGoal"
+        )
+        .value =
         today.goal;
+
 }
 
 
@@ -1838,23 +2963,31 @@ WEIGHT
 function getWeightData() {
 
     return JSON.parse(
-        localStorage.getItem(
-            "fastTrackWeight"
-        )
+        localStorage
+            .getItem(
+                "fastTrackWeight"
+            )
     ) || {
         startingWeight: null,
         goalWeight: null,
         entries: []
     };
+
 }
 
 
-function saveWeightData(data) {
+function saveWeightData(
+    data
+) {
 
-    localStorage.setItem(
-        "fastTrackWeight",
-        JSON.stringify(data)
-    );
+    localStorage
+        .setItem(
+            "fastTrackWeight",
+            JSON.stringify(
+                data
+            )
+        );
+
 }
 
 
@@ -1862,19 +2995,28 @@ function saveWeightGoals() {
 
     let start =
         Number(
-            document.getElementById(
-                "startingWeightInput"
-            ).value
+            document
+                .getElementById(
+                    "startingWeightInput"
+                )
+                .value
         );
+
 
     let goal =
         Number(
-            document.getElementById(
-                "goalWeightInput"
-            ).value
+            document
+                .getElementById(
+                    "goalWeightInput"
+                )
+                .value
         );
 
-    if (!start || !goal) {
+
+    if (
+        !start ||
+        !goal
+    ) {
 
         alert(
             "Enter a starting weight and goal weight."
@@ -1883,18 +3025,26 @@ function saveWeightGoals() {
         return;
     }
 
+
     let data =
         getWeightData();
+
 
     data.startingWeight =
         start;
 
+
     data.goalWeight =
         goal;
 
-    saveWeightData(data);
+
+    saveWeightData(
+        data
+    );
+
 
     updateWeightDisplay();
+
 }
 
 
@@ -1902,12 +3052,18 @@ function addWeight() {
 
     let weight =
         Number(
-            document.getElementById(
-                "newWeight"
-            ).value
+            document
+                .getElementById(
+                    "newWeight"
+                )
+                .value
         );
 
-    if (!weight || weight <= 0) {
+
+    if (
+        !weight ||
+        weight <= 0
+    ) {
 
         alert(
             "Enter a valid weight."
@@ -1916,22 +3072,35 @@ function addWeight() {
         return;
     }
 
+
     let data =
         getWeightData();
 
-    data.entries.unshift({
-        weight: weight,
-        date: Date.now()
-    });
 
-    saveWeightData(data);
+    data.entries
+        .unshift(
+            {
+                weight: weight,
+                date: Date.now()
+            }
+        );
 
-    document.getElementById(
-        "newWeight"
-    ).value =
+
+    saveWeightData(
+        data
+    );
+
+
+    document
+        .getElementById(
+            "newWeight"
+        )
+        .value =
         "";
 
+
     updateWeightDisplay();
+
 }
 
 
@@ -1940,31 +3109,44 @@ function updateWeightDisplay() {
     let data =
         getWeightData();
 
+
     let current =
         data.entries.length
         ? data.entries[0].weight
         : null;
 
-    document.getElementById(
-        "startingWeightDisplay"
-    ).innerText =
+
+    document
+        .getElementById(
+            "startingWeightDisplay"
+        )
+        .innerText =
         data.startingWeight
-        ? data.startingWeight + " lb"
+        ? data.startingWeight +
+          " lb"
         : "--";
 
-    document.getElementById(
-        "goalWeightDisplay"
-    ).innerText =
+
+    document
+        .getElementById(
+            "goalWeightDisplay"
+        )
+        .innerText =
         data.goalWeight
-        ? data.goalWeight + " lb"
+        ? data.goalWeight +
+          " lb"
         : "--";
 
-    document.getElementById(
-        "currentWeight"
-    ).innerText =
+
+    document
+        .getElementById(
+            "currentWeight"
+        )
+        .innerText =
         current
         ? current
         : "--";
+
 
     if (
         current &&
@@ -1975,25 +3157,39 @@ function updateWeightDisplay() {
             data.startingWeight -
             current;
 
-        document.getElementById(
-            "weightChange"
-        ).innerText =
+
+        document
+            .getElementById(
+                "weightChange"
+            )
+            .innerText =
             difference >= 0
-            ? difference.toFixed(1) +
+
+            ? difference
+                .toFixed(1) +
               " lb lost"
-            : Math.abs(difference)
+
+            : Math.abs(
+                difference
+              )
               .toFixed(1) +
               " lb gained";
 
     } else {
 
-        document.getElementById(
-            "weightChange"
-        ).innerText =
+        document
+            .getElementById(
+                "weightChange"
+            )
+            .innerText =
             "";
+
     }
 
-    let progress = 0;
+
+    let progress =
+        0;
+
 
     if (
         current &&
@@ -2017,47 +3213,77 @@ function updateWeightDisplay() {
             ) *
             100;
 
+
         progress =
             Math.min(
                 100,
-                Math.max(0, progress)
+                Math.max(
+                    0,
+                    progress
+                )
             );
+
     }
 
-    document.getElementById(
-        "weightProgress"
-    ).style.width =
+
+    document
+        .getElementById(
+            "weightProgress"
+        )
+        .style
+        .width =
         progress +
         "%";
 
-    document.getElementById(
-        "weightPercent"
-    ).innerText =
+
+    document
+        .getElementById(
+            "weightPercent"
+        )
+        .innerText =
         progress.toFixed(1) +
         "% toward goal";
 
-    document.getElementById(
-        "startingWeightInput"
-    ).value =
-        data.startingWeight || "";
 
-    document.getElementById(
-        "goalWeightInput"
-    ).value =
-        data.goalWeight || "";
+    document
+        .getElementById(
+            "startingWeightInput"
+        )
+        .value =
+        data.startingWeight ||
+        "";
 
-    showWeightHistory(data);
+
+    document
+        .getElementById(
+            "goalWeightInput"
+        )
+        .value =
+        data.goalWeight ||
+        "";
+
+
+    showWeightHistory(
+        data
+    );
+
 }
 
 
-function showWeightHistory(data) {
+function showWeightHistory(
+    data
+) {
 
     let container =
-        document.getElementById(
-            "weightHistory"
-        );
+        document
+            .getElementById(
+                "weightHistory"
+            );
 
-    if (!data.entries.length) {
+
+    if (
+        !data.entries.length
+    ) {
 
         container.innerHTML =
             '<div class="empty">' +
@@ -2065,37 +3291,59 @@ function showWeightHistory(data) {
             '</div>';
 
         return;
+
     }
 
-    container.innerHTML = "";
+
+    container.innerHTML =
+        "";
+
 
     data.entries
-        .slice(0,20)
-        .forEach(function(entry) {
+        .slice(
+            0,
+            20
+        )
+        .forEach(
+            function(entry) {
 
-            let div =
-                document.createElement(
-                    "div"
-                );
+                let div =
+                    document
+                        .createElement(
+                            "div"
+                        );
 
-            div.className =
-                "weight-history-item";
 
-            div.innerHTML =
-                "<div>" +
-                "<strong>" +
-                entry.weight +
-                " lb</strong>" +
-                "</div>" +
+                div.className =
+                    "weight-history-item";
 
-                '<div class="weight-history-date">' +
-                new Date(
-                    entry.date
-                ).toLocaleDateString() +
-                "</div>";
 
-            container.appendChild(div);
-        });
+                div.innerHTML =
+                    "<div>" +
+                        "<strong>" +
+                            entry.weight +
+                            " lb" +
+                        "</strong>" +
+                    "</div>" +
+
+                    '<div class="weight-history-date">' +
+
+                        new Date(
+                            entry.date
+                        )
+                        .toLocaleDateString() +
+
+                    "</div>";
+
+
+                container
+                    .appendChild(
+                        div
+                    );
+
+            }
+        );
+
 }
 
 
@@ -2103,25 +3351,41 @@ function showWeightHistory(data) {
 FAST HISTORY
 ========================= */
 
-function addFastHistory(status) {
+function addFastHistory(
+    status
+) {
 
     let history =
         JSON.parse(
-            localStorage.getItem(
-                "fastTrackHistory"
-            )
+            localStorage
+                .getItem(
+                    "fastTrackHistory"
+                )
         ) || [];
 
-    history.unshift({
-        duration: selectedHours,
-        status: status,
-        date: Date.now()
-    });
 
-    localStorage.setItem(
-        "fastTrackHistory",
-        JSON.stringify(history)
+    history.unshift(
+        {
+            duration:
+                selectedHours,
+
+            status:
+                status,
+
+            date:
+                Date.now()
+        }
     );
+
+
+    localStorage
+        .setItem(
+            "fastTrackHistory",
+            JSON.stringify(
+                history
+            )
+        );
+
 }
 
 
@@ -2129,17 +3393,23 @@ function showHistory() {
 
     let history =
         JSON.parse(
-            localStorage.getItem(
-                "fastTrackHistory"
-            )
+            localStorage
+                .getItem(
+                    "fastTrackHistory"
+                )
         ) || [];
 
-    let container =
-        document.getElementById(
-            "historyList"
-        );
 
-    if (!history.length) {
+    let container =
+        document
+            .getElementById(
+                "historyList"
+            );
+
+
+    if (
+        !history.length
+    ) {
 
         container.innerHTML =
             '<div class="empty">' +
@@ -2147,51 +3417,74 @@ function showHistory() {
             '</div>';
 
         return;
+
     }
 
-    container.innerHTML = "";
 
-    history.forEach(function(item) {
+    container.innerHTML =
+        "";
 
-        let div =
-            document.createElement(
-                "div"
-            );
 
-        div.className =
-            "history-item";
+    history
+        .forEach(
+            function(item) {
 
-        let statusClass =
-            item.status === "Completed"
-            ? "completed"
-            : "cancelled";
+                let div =
+                    document
+                        .createElement(
+                            "div"
+                        );
 
-        div.innerHTML =
 
-            '<div class="history-top">' +
+                div.className =
+                    "history-item";
 
-                '<strong>' +
-                durationText(
-                    item.duration
-                ) +
-                '</strong>' +
 
-                '<span class="' +
-                statusClass +
-                '">' +
-                item.status +
-                '</span>' +
+                let statusClass =
+                    item.status ===
+                    "Completed"
 
-            '</div>' +
+                    ? "completed"
 
-            '<div class="history-date">' +
-            new Date(
-                item.date
-            ).toLocaleString() +
-            '</div>';
+                    : "cancelled";
 
-        container.appendChild(div);
-    });
+
+                div.innerHTML =
+
+                    '<div class="history-top">' +
+
+                        '<strong>' +
+                            durationText(
+                                item.duration
+                            ) +
+                        '</strong>' +
+
+                        '<span class="' +
+                            statusClass +
+                        '">' +
+                            item.status +
+                        '</span>' +
+
+                    '</div>' +
+
+                    '<div class="history-date">' +
+
+                        new Date(
+                            item.date
+                        )
+                        .toLocaleString() +
+
+                    '</div>';
+
+
+                container
+                    .appendChild(
+                        div
+                    );
+
+            }
+        );
+
 }
 
 
@@ -2203,17 +3496,577 @@ function clearHistory() {
         )
     ) {
 
-        localStorage.removeItem(
-            "fastTrackHistory"
-        );
+        localStorage
+            .removeItem(
+                "fastTrackHistory"
+            );
+
 
         showHistory();
+
     }
+
 }
 
 
 /* =========================
-START APP
+DAILY FAST JOURNAL
+========================= */
+
+function getJournalData() {
+
+    return JSON.parse(
+        localStorage
+            .getItem(
+                "fastTrackJournal"
+            )
+    ) || {};
+
+}
+
+
+/* JOURNAL DATE KEY */
+
+function journalDateKey() {
+
+    let d =
+        new Date();
+
+
+    return (
+        d.getFullYear() +
+        "-" +
+        String(
+            d.getMonth() +
+            1
+        )
+        .padStart(
+            2,
+            "0"
+        ) +
+        "-" +
+        String(
+            d.getDate()
+        )
+        .padStart(
+            2,
+            "0"
+        )
+    );
+
+}
+
+
+/* CURRENT FAST DAY */
+
+function getCurrentFastDay() {
+
+    if (
+        !fastStart
+    ) {
+
+        return 1;
+
+    }
+
+
+    let elapsed =
+        Date.now() -
+        fastStart;
+
+
+    let days =
+        Math.floor(
+            elapsed /
+            86400000
+        ) +
+        1;
+
+
+    return Math.max(
+        1,
+        days
+    );
+
+}
+
+
+/* SAVE JOURNAL */
+
+function saveJournalEntry() {
+
+    let mood =
+        document
+            .getElementById(
+                "journalMood"
+            )
+            .value;
+
+
+    let hunger =
+        document
+            .getElementById(
+                "journalHunger"
+            )
+            .value;
+
+
+    let energy =
+        document
+            .getElementById(
+                "journalEnergy"
+            )
+            .value;
+
+
+    let notes =
+        document
+            .getElementById(
+                "journalNotes"
+            )
+            .value
+            .trim();
+
+
+    if (
+        !mood &&
+        !hunger &&
+        !energy &&
+        !notes
+    ) {
+
+        alert(
+            "Add something to today's journal first."
+        );
+
+        return;
+
+    }
+
+
+    let journal =
+        getJournalData();
+
+
+    let key =
+        journalDateKey();
+
+
+    let water =
+        getWaterData();
+
+
+    let waterAmount =
+        water
+            .all[
+                water.today
+            ]
+            .amount;
+
+
+    journal[key] = {
+
+        date:
+            Date.now(),
+
+        fastDay:
+            getCurrentFastDay(),
+
+        mood:
+            mood,
+
+        hunger:
+            hunger,
+
+        energy:
+            energy,
+
+        water:
+            waterAmount,
+
+        notes:
+            notes
+
+    };
+
+
+    localStorage
+        .setItem(
+            "fastTrackJournal",
+            JSON.stringify(
+                journal
+            )
+        );
+
+
+    document
+        .getElementById(
+            "journalSavedMessage"
+        )
+        .innerText =
+        "✓ Today's journal entry has been saved";
+
+
+    setTimeout(
+        function() {
+
+            document
+                .getElementById(
+                    "journalSavedMessage"
+                )
+                .innerText =
+                "";
+
+        },
+        3000
+    );
+
+
+    showJournalHistory();
+
+}
+
+
+/* LOAD TODAY JOURNAL */
+
+function loadTodayJournal() {
+
+    let journal =
+        getJournalData();
+
+
+    let key =
+        journalDateKey();
+
+
+    let entry =
+        journal[key];
+
+
+    document
+        .getElementById(
+            "journalDay"
+        )
+        .innerText =
+        "Fast Day " +
+        getCurrentFastDay();
+
+
+    document
+        .getElementById(
+            "journalDate"
+        )
+        .innerText =
+        new Date()
+        .toLocaleDateString(
+            [],
+            {
+                weekday:
+                    "short",
+
+                month:
+                    "short",
+
+                day:
+                    "numeric"
+            }
+        );
+
+
+    let water =
+        getWaterData();
+
+
+    document
+        .getElementById(
+            "journalWater"
+        )
+        .innerText =
+        water
+            .all[
+                water.today
+            ]
+            .amount +
+        " oz";
+
+
+    if (
+        !entry
+    ) {
+
+        document
+            .getElementById(
+                "journalMood"
+            )
+            .value =
+            "";
+
+
+        document
+            .getElementById(
+                "journalHunger"
+            )
+            .value =
+            "";
+
+
+        document
+            .getElementById(
+                "journalEnergy"
+            )
+            .value =
+            "";
+
+
+        document
+            .getElementById(
+                "journalNotes"
+            )
+            .value =
+            "";
+
+
+        return;
+
+    }
+
+
+    document
+        .getElementById(
+            "journalMood"
+        )
+        .value =
+        entry.mood ||
+        "";
+
+
+    document
+        .getElementById(
+            "journalHunger"
+        )
+        .value =
+        entry.hunger ||
+        "";
+
+
+    document
+        .getElementById(
+            "journalEnergy"
+        )
+        .value =
+        entry.energy ||
+        "";
+
+
+    document
+        .getElementById(
+            "journalNotes"
+        )
+        .value =
+        entry.notes ||
+        "";
+
+}
+
+
+/* JOURNAL HISTORY */
+
+function showJournalHistory() {
+
+    let journal =
+        getJournalData();
+
+
+    let container =
+        document
+            .getElementById(
+                "journalHistory"
+            );
+
+
+    let entries =
+        Object.values(
+            journal
+        );
+
+
+    entries.sort(
+        function(a,b) {
+
+            return (
+                b.date -
+                a.date
+            );
+
+        }
+    );
+
+
+    if (
+        entries.length ===
+        0
+    ) {
+
+        container.innerHTML =
+            '<div class="empty">' +
+            'No journal entries yet.' +
+            '</div>';
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        "";
+
+
+    entries
+        .forEach(
+            function(entry) {
+
+                let div =
+                    document
+                        .createElement(
+                            "div"
+                        );
+
+
+                div.className =
+                    "journal-history-item";
+
+
+                let details =
+                    [];
+
+
+                if (
+                    entry.mood
+                ) {
+
+                    details.push(
+                        entry.mood
+                    );
+
+                }
+
+
+                if (
+                    entry.hunger
+                ) {
+
+                    details.push(
+                        "Hunger " +
+                        entry.hunger +
+                        "/5"
+                    );
+
+                }
+
+
+                if (
+                    entry.energy
+                ) {
+
+                    details.push(
+                        "Energy " +
+                        entry.energy +
+                        "/5"
+                    );
+
+                }
+
+
+                details.push(
+                    entry.water +
+                    " oz water"
+                );
+
+
+                div.innerHTML =
+
+                    '<div class="journal-history-top">' +
+
+                        '<div class="journal-history-day">' +
+
+                            'Fast Day ' +
+                            entry.fastDay +
+
+                        '</div>' +
+
+                        '<div class="journal-date">' +
+
+                            new Date(
+                                entry.date
+                            )
+                            .toLocaleDateString() +
+
+                        '</div>' +
+
+                    '</div>' +
+
+                    '<div class="journal-history-meta">' +
+
+                        details.join(
+                            " • "
+                        ) +
+
+                    '</div>' +
+
+                    (
+                        entry.notes
+
+                        ?
+
+                        '<div class="journal-history-note">' +
+
+                            escapeJournalHTML(
+                                entry.notes
+                            ) +
+
+                        '</div>'
+
+                        :
+
+                        ''
+                    );
+
+
+                container
+                    .appendChild(
+                        div
+                    );
+
+            }
+        );
+
+}
+
+
+/* SAFE JOURNAL TEXT */
+
+function escapeJournalHTML(
+    text
+) {
+
+    let div =
+        document
+            .createElement(
+                "div"
+            );
+
+
+    div.textContent =
+        text;
+
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================
+INITIALIZE APP
 ========================= */
 
 function initializeApp() {
@@ -2227,7 +4080,13 @@ function initializeApp() {
     showHistory();
 
     loadFast();
+
+    loadTodayJournal();
+
+    showJournalHistory();
+
 }
+
 
 initializeApp();
 
